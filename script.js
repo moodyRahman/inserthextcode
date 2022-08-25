@@ -31,6 +31,13 @@ const onLoad = () => {
     // set output panel
     document.getElementById("output").innerHTML =
     `:root {\n${url_data.reduce((prev, curr) => prev + `    --${curr.name}: ${curr.color};\n`, "") }\n}`
+
+    // update the text inputs with the hex codes
+    const form_data = style_data.map((e) => document.getElementById(e))
+    console.log(form_data)
+    form_data.forEach((e, index) => {
+        e.value = url_data[index].color;
+    })
 }
 
 const mmm = () => {
