@@ -41,33 +41,30 @@ const onLoad = () => {
 }
 
 const mmm = () => {
-    const bg_color = document.getElementById("bg-color").value;
-    const text_color = document.getElementById("text-color").value;
-    const accent = document.getElementById("accent").value;
-    const icon = document.getElementById("icon").value;
+
+    const form_data = style_data.map((e) => {return {color: document.getElementById(e).value, name:e}})
+
     const regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-    if (!bg_color.match(regexp) || !text_color.match(regexp) || !accent.match(regexp) || !icon.match(regexp)) {
+
+    if (! form_data.every((e) => e.color.match(regexp))) {
         document.getElementById("wack").style.display = "inline";
         return;
     }
-    document.documentElement.style.setProperty('--bg-color', bg_color);
-    document.documentElement.style.setProperty('--text-color', text_color);
-    document.documentElement.style.setProperty('--accent', accent);
-    document.documentElement.style.setProperty('--icon', icon);
+
+    form_data.forEach((e)=>{
+        document.documentElement.style.setProperty(`--${e.name}`,e.color)
+    })
+
 
     document.getElementById("output").innerHTML =
-    `:root {
-        --bg-color: ${bg_color};
-        --text-color:${text_color};
-        --accent: ${accent};
-        --icon: ${icon};
-    }`
+    `:root {\n${form_data.reduce((prev, curr) => prev + `    --${curr.name}: ${curr.color};\n`, "") }\n}`
 
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('bg-color', bg_color);
-    urlParams.set('text-color', text_color);
-    urlParams.set('accent', accent);
-    urlParams.set('icon', icon);
+
+    form_data.forEach((e) => {
+        urlParams.set(e.name, e.color)
+    })
+
 
     window.location.search = urlParams;
 
