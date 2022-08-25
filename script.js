@@ -5,37 +5,30 @@ const style_data = [
 
 const onLoad = () => {
 
+    // read URL parameters and make sure they're all valid keys
     const url_params = new URLSearchParams(window.location.search);
-
     if(! style_data.every((e) => url_params.has(e))) {
         return
     }
 
+    // store url parameters with their name in a more convenient array of JSON
     let url_data = style_data.map((e) => {
         return {color: url_params.get(e), name: e}
     })
 
-    const regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-    
+    // validate that every value is a valid hex code
+    const regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";    
     if (! url_data.every((e) => e.color.match(regexp)) ) {
         document.getElementById("wack").style.display = "inline";
         return;
     }
 
-    console.log(url_data)
+    // set document styles
     url_data.forEach((e) => {
-        console.log()
         document.documentElement.style.setProperty(`--${e.name}`, e.color);        
     })
 
-    // document.getElementById("output").innerHTML =
-    // `:root {
-    //     --bg-color: ${bg_color};
-    //     --text-color:${text_color};
-    //     --accent: ${accent};
-    //     --icon: ${icon};
-    // }`
-
+    // set output panel
     document.getElementById("output").innerHTML =
     `:root {\n${url_data.reduce((prev, curr) => prev + `    --${curr.name}: ${curr.color};\n`, "") }\n}`
 }
