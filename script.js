@@ -34,42 +34,26 @@ const onLoad = () => {
 
     // update the text inputs with the hex codes
     const form_data = style_data.map((e) => document.getElementById(e))
-    console.log(form_data)
     form_data.forEach((e, index) => {
         e.value = url_data[index].color;
     })
 }
 
 const mmm = () => {
-
+    // // read hex codes from form
     const form_data = style_data.map((e) => {return {color: document.getElementById(e).value, name:e}})
 
-    const regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-
-    if (! form_data.every((e) => e.color.match(regexp))) {
-        document.getElementById("wack").style.display = "inline";
-        return;
-    }
-
-    form_data.forEach((e)=>{
-        document.documentElement.style.setProperty(`--${e.name}`,e.color)
-    })
-
-
-    document.getElementById("output").innerHTML =
-    `:root {\n${form_data.reduce((prev, curr) => prev + `    --${curr.name}: ${curr.color};\n`, "") }\n}`
-
+    // update url params
     const urlParams = new URLSearchParams(window.location.search);
-
     form_data.forEach((e) => {
+        console.log(e)
         urlParams.set(e.name, e.color)
     })
-
-
     window.location.search = urlParams;
 
 }
 
 window.addEventListener('load', function(event) {
     onLoad();
-}); 
+    document.getElementById("submit").addEventListener("click", mmm)
+});
