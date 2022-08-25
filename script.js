@@ -4,7 +4,13 @@ const style_data = [
 ]
 
 const onLoad = () => {
+
     const url_params = new URLSearchParams(window.location.search);
+
+    if(! style_data.every((e) => url_params.has(e))) {
+        return
+    }
+
     let url_data = style_data.map((e) => {
         return {color: url_params.get(e), name: e}
     })
