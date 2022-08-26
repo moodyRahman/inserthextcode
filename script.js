@@ -13,9 +13,15 @@ const onLoad = () => {
 
 	// read URL parameters and make sure they're all valid keys
 	const url_params = new URLSearchParams(window.location.search);
+
+	if (url_params.toString() === "")
+	{
+		return;
+	}
+
 	if (!style_data.every((e) => url_params.has(e))) {
 		setMessage("odd things in the URL")
-		return
+		return;
 	}
 
 	// store url parameters with their name in a more convenient array of JSON
