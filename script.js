@@ -43,7 +43,11 @@ const onLoad = () => {
 
 	// set output panel
 	document.getElementById("output").innerHTML =
-		`:root {\n${url_data.reduce((prev, curr) => prev + `    --${curr.name}: ${curr.color};\n`, "")}\n}`
+		`<div>:root {\n${url_data.reduce((prev, curr) => prev + `    --${curr.name}: ${curr.color};\n`, "")}\n} </div>
+<div>{
+${url_data.reduce((prev, curr) => prev + `    "${curr.name}": "${curr.color}";\n`, "")}
+},</div>
+	`
 
 	// update the text inputs with the hex codes
 	const form_data = style_data.map((e) => document.getElementById(e))
