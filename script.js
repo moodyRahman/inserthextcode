@@ -45,7 +45,7 @@ const onLoad = () => {
 	document.getElementById("output").innerHTML =
 		`<div>:root {\n${url_data.reduce((prev, curr) => prev + `    --${curr.name}: ${curr.color};\n`, "")}\n} </div>
 <div>{
-${url_data.reduce((prev, curr) => prev + `    "${curr.name}": "${curr.color}";\n`, "")}
+${url_data.reduce((prev, curr) => prev + `    "${curr.name}": "${curr.color}",\n`, "")}
 },</div>
 	`
 
